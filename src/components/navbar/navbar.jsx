@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import Loader from 'react-loader-spinner'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch} from '@fortawesome/free-solid-svg-icons'
 import Logo from '../../assets/logo.png'
 import User4 from '../../assets/user4.jpg'
 
@@ -63,13 +64,45 @@ height: 50px;
 width: 50px;
 object-fit: cover;
 `
+const SearchBar = styled.div`
+width: 300px;
+display: flex;
+`
+const SearchBarIcon = styled.div`
+border-radius: 20px 0px 0px 20px;
+color: #657786;
+border: 1px solid #a1d0b98a;
+border-right:0px;
+background-color: #efefef8a;
+padding: 3px 10px;
+
+`
+
+
+const SearchBarInput = styled.input`
+width: 250px;
+border-radius: 0px 20px 20px 0px;
+border: 1px solid #a1d0b98a;
+border-left:0px;
+background-color: #efefef8a;
+font-size: 14px;
+&:focus{
+  outline: none;
+}
+`
+
 
 const Navbar = () => {
   return(
     <NavbarContainer>
       <NavbarContent>
-        <BrandLogo src={Logo}>
-        </BrandLogo>
+        <BrandLogo src={Logo}/>
+        <SearchBar>
+          <SearchBarIcon>
+            <FontAwesomeIcon icon={faSearch} />
+          </SearchBarIcon>
+          <SearchBarInput type='text' placeholder='Search '/>
+        </SearchBar>
         <NavbarLinks>
           <NavbarLink>About</NavbarLink>
           <NavbarLink>Contact</NavbarLink>
