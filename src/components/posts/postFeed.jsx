@@ -5,18 +5,18 @@ import PostPreview from './postPreview'
 import styled from '@emotion/styled'
 
 import Dropdown from 'react-bootstrap/Dropdown';
-
+import {css } from '@emotion/core'
 
 const PostFeedContainer = styled.div`
 display: flex;
 flex-direction: column;
 box-shadow:  0 0 5px #77BA99;
-width: 66%;
+width: 60%;
 height: fit-content;
-margin: 30px;
+margin: 30px 3%;
 background-color: white;
 @media (max-width: 1190px) {
-  width: 65%;
+  width: 59%;
 }
 @media (max-width: 850px) {
   width: 100%;
@@ -42,6 +42,35 @@ const PostFeedHeaderFilter = styled.div`
 color: #77BA99;
 font-size: 18px;
 font-weight: bold;
+
+.dropdown-menu{
+  left: -60px !important;
+}
+
+.dropdown button{
+  color:  #77BA99;
+  background-color: white;
+  border-color: white;
+}
+
+.dropdown button:focus,
+.dropdown button:hover,
+.dropdown-toggle
+{
+  box-shadow: none !important;
+  color:  #77BA99 !important;
+  background-color: white !important;
+  border-color: white !important;
+}
+
+.dropdown-item{
+  color:#657786;
+}
+.dropdown-item:hover{
+  color:white !important;
+  background-color:  #77BA99 !important;
+}
+
 `
 
 const PostFeed = ({posts, error,timeFilter,setTimeFilter}) => {
@@ -57,7 +86,7 @@ const PostFeed = ({posts, error,timeFilter,setTimeFilter}) => {
         <PostFeedHeaderFilter>
           <Dropdown>
             <Dropdown.Toggle>
-              {timeFilter}
+              All Time
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -73,8 +102,7 @@ const PostFeed = ({posts, error,timeFilter,setTimeFilter}) => {
 
       {error && <div>The following error occured: {error.message}</div>}
 
-      {!error &&
-
+      {posts &&
         <Fragment>
           {posts.map(post => {
             return <PostPreview key={post.node.name} postInfo={post.node}/>

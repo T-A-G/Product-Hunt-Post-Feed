@@ -13,14 +13,14 @@ import styled from '@emotion/styled'
 
 
 const SidebarContainer = styled.div`
-width: 32%;
+width: 27%;
 display: flex;
 flex-direction: column;
 align-items: center;
-margin: 30px;
+margin: 30px 3%;
 
 @media (max-width: 1190px ) {
-  width: 35%;
+  width: 29%;
   }
 
 @media (max-width: 850px) {

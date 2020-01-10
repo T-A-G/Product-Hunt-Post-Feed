@@ -14,6 +14,18 @@ import Navbar from '../../components/navbar/navbar'
 import Sidebar from '../../components/sidebar/sidebar'
 import PostFeed from '../../components/posts/postFeed'
 
+
+const GlobalStyle = <Global
+  styles={css`
+    body {
+      font-family: "Helvetica Neue";
+      background-color: #dbffee70;
+    }
+    `
+  }
+  />
+
+
 const HomeContainer = styled.div`
 margin: auto;
 width: 100%;
@@ -42,131 +54,100 @@ const Home = props => {
 
   const [timeFilter, setTimeFilter] = useState('All Time')
 
-  const GlobalStyle = <Global
-    styles={css`
-      body {
-        font-family: "Helvetica Neue";
-        background-color: #dbffee70;
-      }
+  const { loading, error, data, fetchMore} = useQuery(queries.GET_POSTS, {
+    notifyOnNetworkStatusChange: true
+  });
 
-      .dropdown button{
-        color:  #77BA99;
-        background-color: white;
-        border-color: white;
-      }
-
-      .dropdown button:focus,
-      .dropdown button:hover,
-      .dropdown-toggle
-      {
-        box-shadow: none !important;
-        color:  #77BA99 !important;
-        background-color: white !important;
-        border-color: white !important;
-      }
-
-      .dropdown-item{
-        color:#657786;
-      }
-      .dropdown-item:hover{
-        color:white !important;
-        background-color:  #77BA99 !important;
-
-      }
-      `}
-      />
-
-    const { loading, error, data, fetchMore} = useQuery(queries.GET_POSTS, {
-      notifyOnNetworkStatusChange: true
-    });
-
-    //load more posts function
-    const fetchMorePosts = endCursor => {
-      if(endCursor){
-        fetchMore({
-          query: queries.GET_POSTS,
-          variables: { cursor: endCursor },
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            return  fetchMoreResult.posts.edges.length ?
-            {
-              posts: {
-                __typename: previousResult.posts.__typename,
-                pageInfo: fetchMoreResult.posts.pageInfo,
-                edges: [...previousResult.posts.edges, ...fetchMoreResult.posts.edges]
-              }
+  //load more posts function
+  const fetchMorePosts = endCursor => {
+    if(endCursor){
+      fetchMore({
+        query: queries.GET_POSTS,
+        variables: { cursor: endCursor },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          return  fetchMoreResult.posts.edges.length ?
+          {
+            posts: {
+              __typename: previousResult.posts.__typename,
+              pageInfo: fetchMoreResult.posts.pageInfo,
+              edges: [...previousResult.posts.edges, ...fetchMoreResult.posts.edges]
             }
-            : previousResult
           }
-        })
-      }
-    }
-    useBottomScrollListener(() => fetchMorePosts(error ? null : data.posts.pageInfo.endCursor));
-
-    const filterPostsByTime = (data) => {
-      if(!data) return
-      const edges = _.filter(data.posts.edges, post => {
-
-        const createdDate = parseISO(post.node.createdAt)
-        const daysBetween = differenceInCalendarDays(createdDate,new Date())
-
-        switch (timeFilter){
-
-          case "Today":
-          return daysBetween === 0
-          break;
-
-          case "This Week":
-          return daysBetween <= 6
-          break;
-
-          default:
-          return true
-          break;
-
+          : previousResult
         }
-
       })
-      return (
-        {
-          posts:{
-            __typename: data.posts.__typename,
-            pageInfo: data.posts.pageInfo,
-            edges: edges,
-          }
-        }
-      )
     }
+  }
 
-    //loading
-    if (!data && loading) {
-      return (<HomeContainer>
-        {GlobalStyle}
-        <LoadingContainer>
-          <Loader
-            type="Bars"
-            color="#77BA99"
-            height={50}
-            width={50}
-            />
-        </LoadingContainer>
-      </HomeContainer>)
-    }
+  //apply time based filter
+  const filterPostsByTime = (data) => {
+    if(!data) return
+    const edges = _.filter(data.posts.edges, post => {
 
-    const filteredData = filterPostsByTime(data)
+      const createdDate = parseISO(post.node.createdAt)
+      const daysBetween = differenceInCalendarDays(createdDate,new Date())
 
-    console.log(filteredData)
+      switch (timeFilter){
 
-    //render
+        case "Today":
+        return daysBetween === 0
+        break;
+
+        case "This Week":
+        return daysBetween <= 6
+        break;
+
+        default:
+        return true
+        break;
+
+      }
+
+    })
     return (
-      <HomeContainer>
-        {GlobalStyle}
-        <Navbar/>
-        <HomeContent>
-          {<PostFeed posts={error? null : filteredData.posts.edges} error={error} timeFilter={timeFilter} setTimeFilter={setTimeFilter}/>}
-          <Sidebar/>
-        </HomeContent>
-      </HomeContainer>
+      {
+        posts:{
+          __typename: data.posts.__typename,
+          pageInfo: data.posts.pageInfo,
+          edges: edges,
+        }
+      }
     )
   }
 
-  export default Home
+  //hook to load more posts when users scrolls to the bottom of the page
+  useBottomScrollListener(() => fetchMorePosts(error ? null : data.posts.pageInfo.endCursor));
+
+  //loading
+  if (!data && loading) {
+    return (<HomeContainer>
+      {GlobalStyle}
+      <LoadingContainer>
+        <Loader
+          type="Bars"
+          color="#77BA99"
+          height={50}
+          width={50}
+          />
+      </LoadingContainer>
+    </HomeContainer>)
+  }
+
+  const filteredData = filterPostsByTime(data)
+
+  const posts = filteredData ? filteredData.posts.edges : null
+
+  //render
+  return (
+    <HomeContainer>
+      {GlobalStyle}
+      <Navbar/>
+      <HomeContent>
+        {<PostFeed posts={posts} error={error} timeFilter={timeFilter} setTimeFilter={setTimeFilter}/>}
+        <Sidebar/>
+      </HomeContent>
+    </HomeContainer>
+  )
+}
+
+export default Home

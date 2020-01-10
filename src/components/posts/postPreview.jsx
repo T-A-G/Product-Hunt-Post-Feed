@@ -4,6 +4,7 @@ import { faComment} from '@fortawesome/free-regular-svg-icons'
 import { faArrowUp,faAngleRight  } from '@fortawesome/free-solid-svg-icons'
 import styled from '@emotion/styled'
 
+
 import parseISO from 'date-fns/parseISO'
 import format from 'date-fns/format'
 
@@ -25,10 +26,15 @@ color: #2C363F;
   border-radius: 0px 0px 3px 3px;
 }
 &:hover{
-  color: ##212529;
+  color: #62a283 !important;
   text-decoration: none;
   background-color: #f5f8fa;
 }
+
+@media (max-width: 800px) {
+  height: 140px;
+}
+
 `
 
 const PostThumbnail = styled.img`
@@ -37,6 +43,9 @@ border-radius: 25px;
 height: 100px;
 width: 100px;
 object-fit: cover;
+@media (max-width: 800px) {
+  display:none;
+}
 `
 const PostBody = styled.div`
 color: ##212529;
@@ -55,15 +64,34 @@ flex-direction: row;
 &:hover{
   color: ##212529;
 }
+
+@media (max-width: 800px) {
+  flex-direction: column;
+}
+
 `
 
 const PostName = styled.h4`
 color: ##212529;
 font-size: 16px;
 margin: 0px 8px 0px 0px;
+overflow:hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+max-width: 300px;
 &:hover{
   color: ##212529;
 }
+
+@media (max-width: 800px) {
+  max-width: 120px;
+}
+`
+
+const PostMeta = styled.div`
+display: flex;
+flex-direction: row;
+
 `
 
 const PostCreator = styled.div`
@@ -82,6 +110,10 @@ margin: 2px 5px 0px 0px;
 &:before{
   content: "\u2022";
   margin-right: 5px;
+}
+
+@media (max-width: 800px) {
+  display:none;
 }
 `
 
@@ -126,16 +158,21 @@ const PostPreview = ({postInfo}) => {
       <PostBody>
 
         <PostTitle>
+
           <PostName>
             {postInfo.name}
           </PostName>
-          <PostCreator>
-            {postInfo.user.username}
-          </PostCreator>
 
-          <PostDate>
-            {format(parseISO(postInfo.createdAt), 'MMM dd')}
-          </PostDate>
+          <PostMeta>
+            <PostCreator>
+              {postInfo.user.username}
+            </PostCreator>
+
+            <PostDate>
+              {format(parseISO(postInfo.createdAt), 'MMM dd')}
+            </PostDate>
+          </PostMeta>
+
         </PostTitle>
 
         <PostDescription>
