@@ -3,6 +3,8 @@ import { useQuery } from '@apollo/client';
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 import styled from '@emotion/styled'
 import { Global, css } from '@emotion/core'
+import Loader from 'react-loader-spinner'
+
 
 import * as queries from '../../queries'
 
@@ -21,6 +23,17 @@ font-family: "Helvetica Neue";
 margin-top: 70px;
 display: flex;
 flex-direction: row;
+`
+
+const LoadingContainer = styled.div`
+position: absolute;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
 `
 
 const Home = props => {
@@ -96,21 +109,33 @@ const Home = props => {
     }
 
     //loading
-    if (!data && loading) return <p>Loading...</p>;
-
-    if(data) data = filterPostsByTime(data)
-
-      //render
-      return (
-        <HomeContainer>
-          {GlobalStyle}
-          <Navbar/>
-          <HomeContent>
-            {<PostFeed posts={error? null : data.posts.edges} error={error} timeFilter={timeFilter} setTimeFilter={setTimeFilter}/>}
-            <Sidebar/>
-          </HomeContent>
-        </HomeContainer>
-      )
+      if (!data && loading) {
+      return (<HomeContainer>
+        {GlobalStyle}
+        <LoadingContainer>
+          <Loader
+            type="Bars"
+            color="#77BA99"
+            height={50}
+            width={50}
+            />
+        </LoadingContainer>
+      </HomeContainer>)
     }
 
-    export default Home
+    // if(data) data = filterPostsByTime(data)
+
+    //render
+    return (
+      <HomeContainer>
+        {GlobalStyle}
+        <Navbar/>
+        <HomeContent>
+          {<PostFeed posts={error? null : data.posts.edges} error={error} timeFilter={timeFilter} setTimeFilter={setTimeFilter}/>}
+          <Sidebar/>
+        </HomeContent>
+      </HomeContainer>
+    )
+  }
+
+  export default Home
