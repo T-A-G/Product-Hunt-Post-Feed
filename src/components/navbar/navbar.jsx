@@ -107,6 +107,9 @@ width: 70px;
 height: auto;
 padding: 10px;
 object-fit: cover;
+&:hover {
+  cursor: pointer;
+}
 `
 const SearchBar = styled.div`
 width: 300px;
@@ -176,9 +179,9 @@ const Navbar = () => {
         </MobileNavbarLinks>
 
         <NavbarLinks>
-          <NavbarLink>About</NavbarLink>
-          <NavbarLink>Contact</NavbarLink>
-          <NavbarAvatar src={User4}/>
+          <NavbarLink onClick={() => alert('Clicked About Page')}>About</NavbarLink>
+          <NavbarLink onClick={() => alert('Clicked Contact Page')}Contact</NavbarLink>
+          <NavbarAvatar onClick={() => alert(' Clicked My Account Page')} src={User4}/>
 
         </NavbarLinks>
 
