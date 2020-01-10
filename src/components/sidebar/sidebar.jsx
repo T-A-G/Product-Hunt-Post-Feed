@@ -144,7 +144,7 @@ const Sidebar = () => {
         </SidebarHeader>
 
         <SidebarBody>
-          I wish I was just half as amazing as the developer of this site! If I was hiring I would totally give him the job! 👨🏻‍💻🔥
+          I wish I was just half as amazing as the developer of this site!Great Job! ‍💻🔥
         </SidebarBody>
         <SidebarStatisctics>
 
