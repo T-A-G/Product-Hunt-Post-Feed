@@ -86,7 +86,7 @@ const PostFeed = ({posts, error,timeFilter,setTimeFilter}) => {
         <PostFeedHeaderFilter>
           <Dropdown>
             <Dropdown.Toggle>
-              All Time
+              {timeFilter}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>

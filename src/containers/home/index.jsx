@@ -53,7 +53,7 @@ align-items: center;
 const Home = props => {
 
   const [timeFilter, setTimeFilter] = useState('All Time')
-
+  console.log(timeFilter)
   const { loading, error, data, fetchMore} = useQuery(queries.GET_POSTS, {
     notifyOnNetworkStatusChange: true
   });
