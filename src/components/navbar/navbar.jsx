@@ -180,7 +180,7 @@ const Navbar = () => {
 
         <NavbarLinks>
           <NavbarLink onClick={() => alert('Clicked About Page')}>About</NavbarLink>
-          <NavbarLink onClick={() => alert('Clicked Contact Page')}Contact</NavbarLink>
+          <NavbarLink onClick={() => alert('Clicked Contact Page')}>Contact</NavbarLink>
           <NavbarAvatar onClick={() => alert(' Clicked My Account Page')} src={User4}/>
 
         </NavbarLinks>
