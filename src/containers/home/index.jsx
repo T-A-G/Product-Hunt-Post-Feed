@@ -4,7 +4,9 @@ import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 import styled from '@emotion/styled'
 import { Global, css } from '@emotion/core'
 import Loader from 'react-loader-spinner'
-
+import * as _ from 'lodash'
+import parseISO from 'date-fns/parseISO'
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 
 import * as queries from '../../queries'
 
@@ -101,15 +103,42 @@ const Home = props => {
     useBottomScrollListener(() => fetchMorePosts(error ? null : data.posts.pageInfo.endCursor));
 
     const filterPostsByTime = (data) => {
+      if(!data) return
+      const edges = _.filter(data.posts.edges, post => {
+
+        const createdDate = parseISO(post.node.createdAt)
+        const daysBetween = differenceInCalendarDays(createdDate,new Date())
+
+        switch (timeFilter){
+
+          case "Today":
+          return daysBetween === 0
+          break;
+
+          case "This Week":
+          return daysBetween <= 6
+          break;
+
+          default:
+          return true
+          break;
+
+        }
+
+      })
       return (
         {
-          ...data
+          posts:{
+            __typename: data.posts.__typename,
+            pageInfo: data.posts.pageInfo,
+            edges: edges,
+          }
         }
       )
     }
 
     //loading
-      if (!data && loading) {
+    if (!data && loading) {
       return (<HomeContainer>
         {GlobalStyle}
         <LoadingContainer>
@@ -123,7 +152,9 @@ const Home = props => {
       </HomeContainer>)
     }
 
-    // if(data) data = filterPostsByTime(data)
+    const filteredData = filterPostsByTime(data)
+
+    console.log(filteredData)
 
     //render
     return (
@@ -131,7 +162,7 @@ const Home = props => {
         {GlobalStyle}
         <Navbar/>
         <HomeContent>
-          {<PostFeed posts={error? null : data.posts.edges} error={error} timeFilter={timeFilter} setTimeFilter={setTimeFilter}/>}
+          {<PostFeed posts={error? null : filteredData.posts.edges} error={error} timeFilter={timeFilter} setTimeFilter={setTimeFilter}/>}
           <Sidebar/>
         </HomeContent>
       </HomeContainer>

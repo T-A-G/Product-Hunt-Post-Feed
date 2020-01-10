@@ -12,6 +12,7 @@ display: flex;
 flex-direction: column;
 box-shadow:  0 0 5px #77BA99;
 width: 66%;
+height: fit-content;
 margin: 30px;
 background-color: white;
 @media (max-width: 1190px) {
@@ -79,13 +80,6 @@ const PostFeed = ({posts, error,timeFilter,setTimeFilter}) => {
             return <PostPreview key={post.node.name} postInfo={post.node}/>
           })}
 
-          <Loader
-            type="MutatingDots"
-            color="#00BFFF"
-            height={100}
-            width={100}
-            timeout={3000} //3 secs
-            />
         </Fragment>
       }
 

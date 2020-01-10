@@ -9,16 +9,14 @@ import format from 'date-fns/format'
 
 const PostContainer = styled.a`
 background-color: white;
-width: 650px;
 text-decoration: none;
-height: 90px;
+height: 100px;
 border-bottom: 1px solid #e6ecf0;
 border-top:none;
 transition: 0.2s ease-in;
 display: flex;
 flex-direction: row;
 color: #2C363F;
-
 &:first-child {
   border-top: 1px solid #e6ecf0;
   border-radius: 3px 3px 0px 0px;
@@ -27,32 +25,45 @@ color: #2C363F;
   border-radius: 0px 0px 3px 3px;
 }
 &:hover{
+  color: ##212529;
   text-decoration: none;
   background-color: #f5f8fa;
 }
 `
 
 const PostThumbnail = styled.img`
-padding: 20px;
+padding: 13px;
 border-radius: 25px;
-height: 60px;
-width: 60px;
+height: 100px;
+width: 100px;
 object-fit: cover;
 `
 const PostBody = styled.div`
+color: ##212529;
 padding: 10px;
 display: flex;
 flex-direction: column;
+&:hover{
+  color: ##212529;
+}
 `
 
 const PostTitle = styled.div`
+color: ##212529;
 display: flex;
 flex-direction: row;
+&:hover{
+  color: ##212529;
+}
 `
 
 const PostName = styled.h4`
+color: ##212529;
 font-size: 16px;
 margin: 0px 8px 0px 0px;
+&:hover{
+  color: ##212529;
+}
 `
 
 const PostCreator = styled.div`

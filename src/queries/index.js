@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const GET_POSTS = gql`
 query MorePosts($cursor: String) {
-  posts(after: $cursor, order: NEWEST, first: 2) {
+  posts(after: $cursor, order: NEWEST) {
     pageInfo{
       endCursor
     }
