@@ -44,7 +44,7 @@ align-items: center;
 const NavbarLink = styled.a`
 margin: 0px 5px;
 color: #2C363F;
-padding: 24px 5px;
+padding: 20px 5px;
 padding-bottom: 28px;
 
 
