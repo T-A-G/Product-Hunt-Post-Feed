@@ -2,7 +2,7 @@
 
 Requires a Product Hunt API Token which can be found [here](https://api.producthunt.com/v2/docs).
 
-then set the `REACT_APP_ACCESS_TOKEN` env variable to the API token received.
+then set the `REACT_APP_ACCESS_TOKEN` env variable to the API token received. (How to can be found [here](https://create-react-app.dev/docs/adding-custom-environment-variables/))
 
 ## Setup 🔧
 
