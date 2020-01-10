@@ -110,7 +110,7 @@ const Sidebar = () => {
 
           <SidebarUserIdentification>
             <SidebarUserName>Tess Testington</SidebarUserName>
-            <SidebarUserHandle>Tess Testington</SidebarUserHandle>
+            <SidebarUserHandle>Te$$_Testington</SidebarUserHandle>
           </SidebarUserIdentification>
         </SidebarHeader>
 
